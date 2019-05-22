@@ -35,6 +35,28 @@ class Student
     # return a new instance of the Student class
   end
 
+  def self.all_students_in_grade_9
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE students.grade = 9
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE students.grade < 12
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade)
